@@ -48,7 +48,6 @@ public class UserService {
         usuarioAtualizado.setSexo(user.getSexo());
         usuarioAtualizado.setTelefone(user.getTelefone());
         usuarioAtualizado.setEmail(user.getEmail());
-        usuarioAtualizado.setLoans(user.getLoans());
         
         return userRepository.save(usuarioAtualizado);
 

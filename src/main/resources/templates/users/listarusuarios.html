@@ -43,47 +43,57 @@
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
-            <h3>Cadastrar Livros</h3>
+            <h3>Estante de Livros</h3>
           </div>
         </div>
       </div>
     </section>
     <!-- Fim do banner -->
+   
+    <div class="container-fluid mt-2">
+      <div class="row">
+        <div class="col-12">
+          <a th:href="@{/library/cadastrarusuarios}" class="btn btn-primary">Cadastrar Usuários</a>
+        </div>
+      </div>
+    </div>
 
-    <br>
-    <br>
-    <br>
-
-    <!-- Inicio do formulário -->
+    <!-- Inicio da tabela de usuarios -->
      <section class="container">
-      <form th:action="@{/library/cadastrarusuarios/salvar}" th:object="${novoUsuario}" method="POST" class="">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">sexo</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">E-mail</th>
 
-        <div class="mb-3">
-          <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" placeholder="Nome do usuário" th:field="*{nome}" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="sexo" class="form-label">Sexo</label>
-          <input type="text" class="form-control" placeholder="Sexo/Gênero" th:field="*{sexo}" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="telefone" class="form-label">Telefone</label>
-          <input type="tel" class="form-control" placeholder="Telefone" th:field="*{telefone}" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="email" class="form-label">E-mail</label>
-          <input type="email" class="form-control" placeholder="E-mail do cliente" th:field="*{email}" required>
-        </div>
-
-        <div class="button">
-          <button type="submit" class="btn btn-success">Salvar</button>
-        </div>
-      </form>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.id}"></td>
+            <td th:text="${usuario.nome}"></td>
+            <td th:text="${usuario.sexo}"></td>
+            <td th:text="${usuario.telefone}"></td>
+            <td th:text="${usuario.email}"></td>
+            <td><a th:href="@{/library/emprestimosusuario/{id}(id=${usuario.id})}" class="btn btn-warning">Ver Empréstimos</a></td>
+            <td><a th:href="@{/library/editarusuarios/{id}(id=${usuario.id})}" class="btn btn-info">Editar</a></td>
+            <td><a th:href="@{/library/deletarusuario/{id}(id=${usuario.id})}" class="btn btn-danger">Excluir</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(usuarios)}">
+            <td colspan="7" class="text-muted">Nenhum usuário cadastrado</td>
+          </tr>
+        </tbody>
+      </table>
      </section>
-     <!-- Fim do formulário -->
+     <!-- Fim da tabela de usuarios -->
+
+
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

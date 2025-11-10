@@ -41,8 +41,5 @@ public class Users {
   private String email;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  @Max(5)
   private List<Loan> loans = new ArrayList<>();
-
-
 }

@@ -43,7 +43,7 @@
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
-            <h3>Cadastrar Livros</h3>
+            <h3>Cadastrar Usuários</h3>
           </div>
         </div>
       </div>
@@ -55,35 +55,37 @@
     <br>
 
     <!-- Inicio do formulário -->
-     <section class="container">
-      <form th:action="@{/library/cadastrarusuarios/salvar}" th:object="${novoUsuario}" method="POST" class="">
+    <section class="container">
+      <form th:action="@{/library/editarusuarios/{id}(id=${usuario.id})}" th:object="${usuario}" method="POST">
+
+        <input type="hidden" th:field="*{id}">
 
         <div class="mb-3">
-          <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" placeholder="Nome do usuário" th:field="*{nome}" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="sexo" class="form-label">Sexo</label>
-          <input type="text" class="form-control" placeholder="Sexo/Gênero" th:field="*{sexo}" required>
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" th:field="*{nome}" id="nome">
         </div>
 
         <div class="mb-3">
-          <label for="telefone" class="form-label">Telefone</label>
-          <input type="tel" class="form-control" placeholder="Telefone" th:field="*{telefone}" required>
+          <label for="sexo">Sexo</label>
+          <input type="text" class="form-control" th:field="*{sexo}" id="sexo">
         </div>
 
         <div class="mb-3">
-          <label for="email" class="form-label">E-mail</label>
-          <input type="email" class="form-control" placeholder="E-mail do cliente" th:field="*{email}" required>
+          <label for="telefone">Telefone</label>
+          <input type="tel" class="form-control" th:field="*{telefone}" id="telefone">
         </div>
 
-        <div class="button">
-          <button type="submit" class="btn btn-success">Salvar</button>
+        <div class="mb-3">
+          <label for="email">E-mail</label>
+          <input type="email" class="form-control" th:field="*{email}" id="email">
         </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a th:href="@{/library/listarusuarios}" class="btn btn-danger">Cancelar</a>
+
       </form>
-     </section>
-     <!-- Fim do formulário -->
+    </section>
+    <!-- Fim do formulário -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

@@ -1,22 +1,20 @@
 package com.example.libraryManagement.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.libraryManagement.models.Books;
+import com.example.libraryManagement.models.Users;
 import com.example.libraryManagement.service.BookService;
 import com.example.libraryManagement.service.LoanService;
 import com.example.libraryManagement.service.UserService;
+
 
 
 @Controller
@@ -52,7 +50,7 @@ public class LibraryController {
     @PostMapping("/cadastrarlivros/salvar")
     public String salvarLivro(@ModelAttribute("novoLivro") Books books){
         bookService.saveBook(books);
-        return "redirect:/library";
+        return "redirect:/library/listarlivros";
     }
 
     @GetMapping("/listarlivros")
@@ -79,6 +77,46 @@ public class LibraryController {
         bookService.deleteBook(id);
         return "redirect:/library/listarlivros";
     }
+
+    @GetMapping("/cadastrarusuarios")
+    public String salvarUsuario(Model model){
+        model.addAttribute("novoUsuario", new Users());
+        return "users/cadastrarusuarios";
+    }
+
+    @PostMapping("/cadastrarusuarios/salvar")
+    public String salvarUsuario(@ModelAttribute("novoUsuario") Users user){
+        userService.saveUser(user);
+        return "redirect:/library/listarusuarios";
+    }
+
+    @GetMapping("/listarusuarios")
+    public String listarUsuarios(Model model){
+        model.addAttribute("usuarios", userService.getAllUsers());
+        return "users/listarusuarios";
+    }
+
+    @GetMapping("/editarusuarios/{id}")
+    public String editarUsuario(@PathVariable Long id, Model model){
+        Users user = userService.getUserById(id).orElseThrow(()-> new RuntimeException("Usuário não encontrado"));
+        model.addAttribute("usuario", user);
+        return "users/editarusuarios";
+    }
+
+    @PostMapping("/editarusuarios/{id}")
+    public String atualizaUsuario(@PathVariable Long id, @ModelAttribute("usuario") Users user) {
+        userService.updateUser(user, id);
+        return "redirect:/library/listarusuarios";
+    }
+
+    @GetMapping("/deletar/{id}")
+    public String deletarUsuario(@PathVariable Long id){
+        userService.deleteUser(id);
+        return "redirect:/listarusuarios";
+    }
+
+    //@
+    
 
     
     

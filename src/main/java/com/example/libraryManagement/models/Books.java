@@ -36,12 +36,11 @@ public class Books {
     @Column(nullable = false)
     private String autor;
 
-    @Min(13) @Max(13)
-    private Integer ISBN;
+    @Column(nullable = false)
+    private String ISBN;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate anoPublicacao;
+    private Integer anoPublicacao;
 
     @Column(nullable = false)
     private Integer qntDisponivel;

@@ -15,6 +15,8 @@ public class LoanService {
     @Autowired
     private LoanRepository loanRepository;
 
+    public Long loanCount(){return loanRepository.count();}
+
     public List<Loan> getAllLoans(){
         return loanRepository.findAll();
     }

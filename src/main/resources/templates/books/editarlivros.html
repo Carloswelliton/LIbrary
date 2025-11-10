@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
+
     <!-- Inicio da navbar -->
     <section id="topo" class="container-fluid">
       <div class="row">
@@ -37,62 +38,64 @@
     </section>
     <!-- Fim da navbar -->
 
-    <!-- Inicio do banner -->
+    <!-- Inicio do Banner -->
     <section id="banner" class="container-fluid ">
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
-            <h3>Sistema de Gestão de Biblioteca</h3>
-            <h6>Bem-vindo(a) ao sistema de controle literário</h6>
+            <h3>Cadastrar Livros</h3>
           </div>
         </div>
       </div>
     </section>
-    <!-- Fim do Banner -->
+    <!-- Fim do banner -->
 
     <br>
     <br>
     <br>
 
-    <!-- Inicio do contador de itens -->
-    <section id="conteudo" class="container">
-      <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 th:text="${emprestimosTotal ?: 0}">0</h6>
-              <h5 class="card-title">Empréstimos Realizados</h5>
-            </div>
-            <div class="card-footer" style="background-color: #0E731D; color: white;">
-              <a th:href="@{/library/listaremprestimos}" class="text-decoration-none" style="color: inherit;"><h6>Ver todos</h6></a>
-            </div>
-          </div>
+    <!-- Inicio do formulário -->
+    <section class="container">
+      <form th:action="@{/library/editarlivros/{id}(id=${livro.id})}" th:object="${livro}" method="POST">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+          <label for="titulo">Título</label>
+          <input type="text" class="form-control" th:field="*{titulo}" id="titulo">
         </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 th:text="${booksTotal ?: 0}">0</h6>
-              <h5 class="card-title">Livros Cadastrados</h5>
-            </div>
-            <div class="card-footer" style="background-color: #0A1073; color: white;">
-              <a th:href="@{/library/listarlivros}" class="text-decoration-none" style="color: inherit;"><h6>Ver todos</h6></a>
-            </div>
-          </div>
+
+        <div class="mb-3">
+          <label for="tema">Tema</label>
+          <input type="text" class="form-control" th:field="*{tema}" id="tema">
         </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 th:text="${usuariosTotal ?: 0}">0</h6>
-              <h5 class="card-title">Usuários Cadastrados</h5>
-            </div>
-            <div class="card-footer" style="background-color: #D91438; color: white;">
-              <a th:href="@{/library/listarusuarios}" class="text-decoration-none" style="color: inherit;"><h6>Ver todos</h6></a>
-            </div>
-          </div>
+
+        <div class="mb-3">
+          <label for="autor">Autor</label>
+          <input type="text" class="form-control" th:field="*{autor}" id="autor">
         </div>
-      </div>
+
+        <div class="mb-3">
+          <label for="anoPublicacao">Ano de publicação</label>
+          <input type="text" class="form-control" th:field="*{anoPublicacao}" id="anoPublicacao">
+        </div>
+
+        <div class="mb-3">
+          <label for="qntDisponivel">Quantidade disponível</label>
+          <input type="text" class="form-control" th:field="*{qntDisponivel}" id="qntDisponivel">
+        </div>
+
+        <div class="mb-3">
+          <label for="ISBN">ISBN</label>
+          <input type="text" class="form-control" th:field="*{ISBN}" id="ISBN">
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a th:href="@{/library/listarlivros}" class="btn btn-danger">Cancelar</a>
+
+      </form>
     </section>
-    <!-- Fim do contador de itens -->
+    <!-- Fim do formulário -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

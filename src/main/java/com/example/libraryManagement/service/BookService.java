@@ -15,6 +15,8 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    public Long bookCount(){return bookRepository.count();}
+
     public List<Books> getAllBooks(){
         return bookRepository.findAll();
     }

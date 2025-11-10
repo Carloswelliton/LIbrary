@@ -15,6 +15,8 @@ public class UserService {
     @Autowired
     private UsersRepository userRepository;
 
+    public Long userCount(){return userRepository.count();}
+
     public List<Users> getAllUsers(){
         return userRepository.findAll();
     }

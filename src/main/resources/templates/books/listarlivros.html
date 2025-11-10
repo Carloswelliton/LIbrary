@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
+
     <!-- Inicio da navbar -->
     <section id="topo" class="container-fluid">
       <div class="row">
@@ -36,63 +37,66 @@
       </div>
     </section>
     <!-- Fim da navbar -->
-
-    <!-- Inicio do banner -->
+    <!-- Inicio do Banner -->
     <section id="banner" class="container-fluid ">
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
-            <h3>Sistema de Gestão de Biblioteca</h3>
-            <h6>Bem-vindo(a) ao sistema de controle literário</h6>
+            <h3>Estante de Livros</h3>
           </div>
         </div>
       </div>
     </section>
-    <!-- Fim do Banner -->
-
-    <br>
-    <br>
-    <br>
-
-    <!-- Inicio do contador de itens -->
-    <section id="conteudo" class="container">
+    <!-- Fim do banner -->
+   
+    <div class="container-fluid mt-2">
       <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 th:text="${emprestimosTotal ?: 0}">0</h6>
-              <h5 class="card-title">Empréstimos Realizados</h5>
-            </div>
-            <div class="card-footer" style="background-color: #0E731D; color: white;">
-              <a th:href="@{/library/listaremprestimos}" class="text-decoration-none" style="color: inherit;"><h6>Ver todos</h6></a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 th:text="${booksTotal ?: 0}">0</h6>
-              <h5 class="card-title">Livros Cadastrados</h5>
-            </div>
-            <div class="card-footer" style="background-color: #0A1073; color: white;">
-              <a th:href="@{/library/listarlivros}" class="text-decoration-none" style="color: inherit;"><h6>Ver todos</h6></a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 th:text="${usuariosTotal ?: 0}">0</h6>
-              <h5 class="card-title">Usuários Cadastrados</h5>
-            </div>
-            <div class="card-footer" style="background-color: #D91438; color: white;">
-              <a th:href="@{/library/listarusuarios}" class="text-decoration-none" style="color: inherit;"><h6>Ver todos</h6></a>
-            </div>
-          </div>
+        <div class="col-12">
+          <a th:href="@{/library/cadastrarlivros}" class="btn btn-primary">Cadastrar Livros</a>
         </div>
       </div>
-    </section>
-    <!-- Fim do contador de itens -->
+    </div>
+
+    <!-- Inicio da tabela de livros -->
+     <section class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Tema</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Ano de publicação</th>
+            <th scope="col">Quantidade disponível</th>
+            <th scope="col">ISBN</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="livro : ${books}">
+            <td th:text="${livro.id}"></td>
+            <td th:text="${livro.titulo}"></td>
+            <td th:text="${livro.tema}"></td>
+            <td th:text="${livro.autor}"></td>
+            <td th:text="${livro.anoPublicacao}"></td>
+            <td th:text="${livro.qntDisponivel}"></td>
+            <td th:text="${livro.ISBN}"></td>
+            <td><a th:href="@{/library/editarlivros/{id}(id=${livro.id})}" class="btn btn-info">Editar</a></td>
+            <td><a th:href="@{/library/livros/editar/{id}(id=${livro.id})}" class="btn btn-warning">Emprestar</a></td>
+            <td><a th:href="@{/library/deletarlivro/{id}(id=${livro.id})}" class="btn btn-danger">Excluir</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(books)}">
+            <td colspan="7" class="text-muted">Nenhum livro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+     </section>
+     <!-- Fim da tabela de livros -->
+
+
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

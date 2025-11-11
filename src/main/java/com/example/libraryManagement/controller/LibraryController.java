@@ -110,10 +110,10 @@ public class LibraryController {
         return "redirect:/library/listarusuarios";
     }
 
-    @GetMapping("/deletar/{id}")
+    @GetMapping("/deletarusuario/{id}")
     public String deletarUsuario(@PathVariable Long id){
         userService.deleteUser(id);
-        return "redirect:/listarusuarios";
+        return "redirect:/library/listarusuarios";
     }
 
     @GetMapping("/usuarios/{id}/novoemprestimo")

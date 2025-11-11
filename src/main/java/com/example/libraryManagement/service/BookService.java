@@ -60,7 +60,4 @@ public class BookService {
         livroAtualizado.setQntDisponivel(book.getQntDisponivel());
         return bookRepository.save(livroAtualizado);
     }
-
-
-    
 }

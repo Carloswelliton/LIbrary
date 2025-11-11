@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.libraryManagement.models.Loan;
@@ -15,6 +16,7 @@ public class LoanService {
     @Autowired
     private LoanRepository loanRepository;
 
+    @Cacheable("emprestimo")
     public Long loanCount(){return loanRepository.count();}
 
     public List<Loan> getAllLoans(){

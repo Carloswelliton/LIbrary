@@ -9,7 +9,7 @@
   <body>
 
     <!-- Inicio da navbar -->
-    <section id="topo" class="container-fluid">
+    <section id="topo" class="container-fluid p-0">
       <div class="row">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg" style="background-color: #0A5916; ">
@@ -39,7 +39,7 @@
     <!-- Fim da navbar -->
 
     <!-- Inicio do Banner -->
-    <section id="banner" class="container-fluid ">
+    <section id="banner" class="container-fluid p-0">
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
@@ -50,10 +50,10 @@
     </section>
     <!-- Fim do banner -->
    
-    <div class="container-fluid mt-2">
+    <div class="container-fluid mt-4 mb-3">
       <div class="row">
         <div class="col-12">
-          <a th:href="@{/library/cadastrarusuarios}" class="btn btn-primary">Cadastrar Usuários</a>
+          <a th:href="@{/library/cadastrarusuarios}" class="btn btn-outline-success">Cadastrar Usuários</a>
         </div>
       </div>
     </div>
@@ -63,24 +63,53 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Id</th>
             <th scope="col">Nome</th>
-            <th scope="col">sexo</th>
             <th scope="col">Telefone</th>
-            <th scope="col">E-mail</th>
-
           </tr>
         </thead>
         <tbody>
           <tr th:each="usuario : ${usuarios}">
-            <td th:text="${usuario.id}"></td>
             <td th:text="${usuario.nome}"></td>
-            <td th:text="${usuario.sexo}"></td>
             <td th:text="${usuario.telefone}"></td>
-            <td th:text="${usuario.email}"></td>
-            <td><a th:href="@{/library/emprestimosusuario/{id}(id=${usuario.id})}" class="btn btn-warning">Ver Empréstimos</a></td>
-            <td><a th:href="@{/library/editarusuarios/{id}(id=${usuario.id})}" class="btn btn-info">Editar</a></td>
-            <td><a th:href="@{/library/deletarusuario/{id}(id=${usuario.id})}" class="btn btn-danger">Excluir</a></td>
+            <td class="d-flex align-items-end justify-content-center" style="height: 100%;">
+
+              <!-- Inicio do rigth canvas -->
+              <button class="btn btn-outline-primary" 
+                      type="button" 
+                      data-bs-toggle="offcanvas" 
+                      th:attr="data-bs-target=${'#usuariosCanvas__'+usuario.id}">
+                      Detalhes
+              </button>
+
+              <div class="offcanvas offcanvas-end" 
+                  tabindex="-1" 
+                  th:id="${'usuariosCanvas__'+usuario.id}" 
+                  aria-labelledby="offcanvasRightLabel">
+
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" th:text="${usuario.nome}"></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                  <p><strong>Sexo:</strong> <span th:text="${usuario.sexo}"></span></p>
+                  <p><strong>Telefone:</strong> <span th:text="${usuario.telefone}"></span></p>
+                  <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+
+                  <hr>
+
+                  <div class="d-grid gap-2">
+                    <a th:href="@{/library/emprestimosusuario/{id}(id=${usuario.id})}" class="btn btn-warning">Ver Empréstimos</a>
+                    <a th:href="@{/library/editarusuarios/{id}(id=${usuario.id})}" class="btn btn-info">Editar</a>
+                    <a th:href="@{/library/deletarusuario/{id}(id=${usuario.id})}" class="btn btn-danger">Excluir</a>
+                  </div>
+                  
+                </div>
+                
+              </div>
+              <!-- Fim do Rigth canvas -->
+
+            </td>
           </tr>
           <tr th:if="${#lists.isEmpty(usuarios)}">
             <td colspan="7" class="text-muted">Nenhum usuário cadastrado</td>

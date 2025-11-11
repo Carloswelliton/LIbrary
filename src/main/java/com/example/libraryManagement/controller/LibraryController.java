@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.libraryManagement.models.Books;
+import com.example.libraryManagement.models.Loan;
 import com.example.libraryManagement.models.Users;
 import com.example.libraryManagement.service.BookService;
 import com.example.libraryManagement.service.LoanService;
@@ -115,8 +116,30 @@ public class LibraryController {
         return "redirect:/listarusuarios";
     }
 
-    //@
-    
+    @GetMapping("/usuarios/{id}/novoemprestimo")
+    public String novoEmpresitmo(@PathVariable Long id, Model model){
+        Users usuario = userService.getUserById(id).orElseThrow(()-> new RuntimeException("Usuário não encontrado"));
+        Loan emprestarLivro = new Loan();
+        emprestarLivro.setUser(usuario);
+        model.addAttribute("emprestimo", emprestarLivro);
+        return "loans/cadastraremprestimo";
+    }
+
+    @PostMapping("/usuarios/{id}/novoemprestimo")
+    public String salvarEmprestimo(@PathVariable Long id, @ModelAttribute("emprestimo") Loan emprestimo){
+        Users usuario = userService.getUserById(id).orElseThrow(()-> new RuntimeException("Usuário não encontrado"));
+        emprestimo.setUser(usuario);
+        loanService.saveLoan(emprestimo);
+        return "redirect:/library/usuarios/"+id+"/novoemprestimo";
+    }
+
+    @GetMapping("/usuarios/emprestimos")
+    public String listarEmprestimos(@PathVariable Long id, Model model){
+        Users usuario = userService.getUserById(id).orElseThrow(()-> new RuntimeException("usuario não encontrado"));
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("emprestimos", usuario.getLoans());
+        return "loans/listaremprestimos";
+    }
 
     
     

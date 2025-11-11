@@ -9,7 +9,7 @@
   <body>
 
     <!-- Inicio da navbar -->
-    <section id="topo" class="container-fluid">
+    <section id="topo" class="container-fluid p-0">
       <div class="row">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg" style="background-color: #0A5916; ">
@@ -37,8 +37,9 @@
       </div>
     </section>
     <!-- Fim da navbar -->
+
     <!-- Inicio do Banner -->
-    <section id="banner" class="container-fluid ">
+    <section id="banner" class="container-fluid p-0">
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
@@ -49,54 +50,75 @@
     </section>
     <!-- Fim do banner -->
    
-    <div class="container-fluid mt-2">
+    <div class="container-fluid mt-4 mb-3">
       <div class="row">
         <div class="col-12">
-          <a th:href="@{/library/cadastrarlivros}" class="btn btn-primary">Cadastrar Livros</a>
+          <a th:href="@{/library/cadastrarlivros}" class="btn btn-outline-success">Cadastrar Livros</a>
         </div>
       </div>
     </div>
 
     <!-- Inicio da tabela de livros -->
-     <section class="container">
+    <section class="container">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Id</th>
             <th scope="col">Titulo</th>
             <th scope="col">Tema</th>
-            <th scope="col">Autor</th>
-            <th scope="col">Ano de publicação</th>
-            <th scope="col">Quantidade disponível</th>
-            <th scope="col">ISBN</th>
-
           </tr>
         </thead>
         <tbody>
           <tr th:each="livro : ${books}">
-            <td th:text="${livro.id}"></td>
             <td th:text="${livro.titulo}"></td>
             <td th:text="${livro.tema}"></td>
-            <td th:text="${livro.autor}"></td>
-            <td th:text="${livro.anoPublicacao}"></td>
-            <td th:text="${livro.qntDisponivel}"></td>
-            <td th:text="${livro.ISBN}"></td>
-            <td><a th:href="@{/library/editarlivros/{id}(id=${livro.id})}" class="btn btn-info">Editar</a></td>
-            <td><a th:href="@{/library/livros/editar/{id}(id=${livro.id})}" class="btn btn-warning">Emprestar</a></td>
-            <td><a th:href="@{/library/deletarlivro/{id}(id=${livro.id})}" class="btn btn-danger">Excluir</a></td>
+            <td>
+
+              <!-- Inicio do rigth canvas -->
+              <button class="btn btn-outline-primary"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      th:attr="data-bs-target='#livroCanvas__'+${livro.id}">
+                Detalhes
+              </button>
+
+              <div class="offcanvas offcanvas-end"
+                  tabindex="-1"
+                  th:id="${'livroCanvas__' + livro.id}"
+                  aria-labelledby="offcanvasRightLabel">
+
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasRightLabel" th:text="${livro.titulo}"></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                  <p><strong>Tema:</strong> <span th:text="${livro.tema}"></span></p>
+                  <p><strong>Autor:</strong> <span th:text="${livro.autor}"></span></p>
+                  <p><strong>Ano de publicação:</strong> <span th:text="${livro.anoPublicacao}"></span></p>
+                  <p><strong>Quantidade disponível:</strong> <span th:text="${livro.qntDisponivel}"></span></p>
+                  <p><strong>ISBN:</strong> <span th:text="${livro.ISBN}"></span></p>
+
+                  <hr>
+
+                  <div class="d-grid gap-2">
+                    <a th:href="@{/library/livros/editar/{id}(id=${livro.id})}" class="btn btn-warning">Emprestar</a>
+                    <a th:href="@{/library/editarlivros/{id}(id=${livro.id})}" class="btn btn-info">Editar</a>
+                    <a th:href="@{/library/deletarlivro/{id}(id=${livro.id})}" class="btn btn-danger">Excluir</a>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- Fim do Rigth canvas -->
+
+            </td>
           </tr>
           <tr th:if="${#lists.isEmpty(books)}">
             <td colspan="7" class="text-muted">Nenhum livro encontrado</td>
           </tr>
         </tbody>
       </table>
-     </section>
-     <!-- Fim da tabela de livros -->
-
-
-
-
-
+    </section>
+    <!-- Fim da tabela de livros -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

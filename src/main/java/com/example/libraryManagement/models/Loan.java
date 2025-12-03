@@ -31,15 +31,15 @@ public class Loan {
     private Users user;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataEmprestimo;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate devolucaoPrevista;
 
     @Column(nullable = true)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataDevolucao;
 
 }

@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Livraria</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editar Empréstimo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-    <!-- Inicio da navbar -->
+      <!-- Inicio da navbar -->
     <section id="topo" class="container-fluid p-0">
       <div class="row">
         <div class="col-12">
@@ -43,21 +43,16 @@
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
-            <h3>Novo Empréstimo</h3>
+            <h3>Editar Empréstimo</h3>
           </div>
         </div>
       </div>
     </section>
     <!-- Fim do banner -->
 
-    <br>
-    <br>
-    <br>
+    <form th:action="@{/library/editaremprestimo/{id}(id=${emprestimo.id})}" th:object="${emprestimo}" method="post">
+      <input type="hidden" th:field="*{id}" />
 
-    <section class="container">
-      <form th:action="@{/library/cadastraremprestimo/salvar}" th:object="${emprestimo}" method="post">
-
-      <!-- Usuário: se emprestimo.user não for null, o select irá pré-selecionar -->
       <div class="mb-3">
         <label class="form-label">Usuário</label>
         <select class="form-select" th:field="*{user}" required>
@@ -77,16 +72,13 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Data de Devolução (opcional)</label>
+        <label class="form-label">Data de Devolução</label>
         <input type="date" class="form-control" th:field="*{dataDevolucao}" />
       </div>
 
-      <button type="submit" class="btn btn-success">Salvar</button>
+      <button type="submit" class="btn btn-success">Atualizar</button>
       <a th:href="@{/library/listaremprestimos}" class="btn btn-secondary">Cancelar</a>
     </form>
   </section>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>

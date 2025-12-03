@@ -116,23 +116,6 @@ public class LibraryController {
         return "redirect:/library/listarusuarios";
     }
 
-    @GetMapping("/usuarios/{id}/novoemprestimo")
-    public String novoEmpresitmo(@PathVariable Long id, Model model){
-        Users usuario = userService.getUserById(id).orElseThrow(()-> new RuntimeException("Usuário não encontrado"));
-        Loan emprestarLivro = new Loan();
-        emprestarLivro.setUser(usuario);
-        model.addAttribute("emprestimo", emprestarLivro);
-        return "loans/cadastraremprestimo";
-    }
-
-    @PostMapping("/usuarios/{id}/novoemprestimo")
-    public String salvarEmprestimo(@PathVariable Long id, @ModelAttribute("emprestimo") Loan emprestimo){
-        Users usuario = userService.getUserById(id).orElseThrow(()-> new RuntimeException("Usuário não encontrado"));
-        emprestimo.setUser(usuario);
-        loanService.saveLoan(emprestimo);
-        return "redirect:/library/usuarios/"+id+"/novoemprestimo";
-    }
-
     @GetMapping("/usuarios/emprestimos")
     public String listarEmprestimos(@PathVariable Long id, Model model){
         Users usuario = userService.getUserById(id).orElseThrow(()-> new RuntimeException("usuario não encontrado"));
@@ -141,7 +124,58 @@ public class LibraryController {
         return "loans/listaremprestimos";
     }
 
-    
-    
-    
+    @GetMapping("/listaremprestimos")
+    public String listarEmprestimos(Model model) {
+        model.addAttribute("emprestimos", loanService.getAllLoans());
+        return "loans/listaremprestimos";
+    }
+
+    @GetMapping("/cadastraremprestimo")
+    public String cadastrarEmprestimo(Model model) {
+        model.addAttribute("emprestimo", new Loan());
+        model.addAttribute("usuarios", userService.getAllUsers());
+        return "loans/cadastraremprestimo";
+    }
+
+    @PostMapping("/cadastraremprestimo/salvar")
+    public String salvarEmprestimo(@ModelAttribute("emprestimo") Loan emprestimo) {
+        if (emprestimo.getUser() == null) {
+            throw new RuntimeException("Usuário deve ser informado para emprestar");
+        }
+        loanService.saveLoan(emprestimo);
+        return "redirect:/library/listaremprestimos";
+    }
+
+    @GetMapping("/usuarios/{id}/novoemprestimo")
+    public String novoEmprestimoPorUsuario(@PathVariable Long id, Model model) {
+        Users usuario = userService.getUserById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Loan emprestarLivro = new Loan();
+        emprestarLivro.setUser(usuario);
+        model.addAttribute("emprestimo", emprestarLivro);
+        model.addAttribute("usuarios", userService.getAllUsers());
+        return "loans/cadastraremprestimo";
+    }
+
+    @GetMapping("/editaremprestimo/{id}")
+    public String editarEmprestimo(@PathVariable Long id, Model model) {
+        Loan emprestimo = loanService.getLoanById(id)
+                .orElseThrow(() -> new RuntimeException("Empréstimo não encontrado"));
+        model.addAttribute("emprestimo", emprestimo);
+        model.addAttribute("usuarios", userService.getAllUsers());
+        return "loans/editaremprestimo";
+    }
+
+
+    @PostMapping("/editaremprestimo/{id}")
+    public String atualizarEmprestimo(@PathVariable Long id, @ModelAttribute("emprestimo") Loan emprestimo) {
+        loanService.updateLoan(emprestimo, id);
+        return "redirect:/library/listaremprestimos";
+    }
+
+
+    @GetMapping("/deletaremprestimo/{id}")
+    public String deletarEmprestimo(@PathVariable Long id) {
+        loanService.deleteLoan(id);
+        return "redirect:/library/listaremprestimos";
+    }
 }

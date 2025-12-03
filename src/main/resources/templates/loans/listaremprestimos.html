@@ -43,7 +43,7 @@
       <div class="row">
         <div class="col-12">
           <div class="textoPrincipal p-4" style="background-color: #C7D9CA;">
-            <h3>Cadastrar Livros</h3>
+            <h3>Emprestimos</h3>
           </div>
         </div>
       </div>
@@ -54,39 +54,44 @@
     <br>
     <br>
 
-    <section class="container">
-      <h2>Empréstimos de <span th:text="${usuario.nome}"></span></h2>
-      <a th:href="@{/library/usuarios/{id}/novoemprestimo(id=${usuario.id})}" class="btn btn-success mb-3">
-        Novo Empréstimo
-      </a>
+    <section class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Empréstimos</h3>
+      <div>
+        <a class="btn btn-success" th:href="@{/library/cadastraremprestimo}">Novo Empréstimo</a>
+      </div>
+    </div>
 
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Título do Livro</th>
-            <th>Data Empréstimo</th>
-            <th>Data Devolução</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="emprestimo : ${emprestimos}">
-            <td th:text="${emprestimo.id}"></td>
-            <td th:text="${emprestimo.tituloLivro}"></td>
-            <td th:text="${emprestimo.dataEmprestimo}"></td>
-            <td th:text="${emprestimo.dataDevolucao}"></td>
-            <td>
-              <a th:href="@{/library/emprestimos/editar/{id}(id=${emprestimo.id})}" class="btn btn-info">Editar</a>
-              <a th:href="@{/library/emprestimos/deletar/{id}(id=${emprestimo.id})}" class="btn btn-danger">Excluir</a>
-            </td>
-          </tr>
-          <tr th:if="${#lists.isEmpty(emprestimos)}">
-            <td colspan="5" class="text-muted">Nenhum empréstimo encontrado</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <table class="table table-striped table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Usuário</th>
+          <th>Data Empréstimo</th>
+          <th>Devolução Prevista</th>
+          <th>Data Devolução</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="e : ${emprestimos}">
+          <td th:text="${e.id}"></td>
+          <td th:text="${e.user.nome}"></td>
+          <td th:text="${e.dataEmprestimo}"></td>
+          <td th:text="${e.devolucaoPrevista}"></td>
+          <td th:text="${e.dataDevolucao} ?: '-'"></td>
+          <td>
+            <a th:href="@{/library/editaremprestimo/{id}(id=${e.id})}" class="btn btn-info btn-sm">Editar</a>
+            <a th:href="@{/library/deletaremprestimo/{id}(id=${e.id})}" class="btn btn-danger btn-sm">Excluir</a>
+          </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(emprestimos)}">
+          <td colspan="6" class="text-center text-muted">Nenhum empréstimo registrado</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
